@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register Check</title>
+<link rel="stylesheet" href="style.css"></head>
+<body><main>
+<header><h1>Register Check</h1><button id="sample">Use sample data</button></header>
+<p class="mute" id="engines"></p>
+
+<section>
+  <h2><b>1</b> Read the register</h2>
+  <p class="mute">Add photos of the handwritten pages. Amber = unclear, please check. Blue = corrected from the reference data.</p>
+  <div class="row"><input type="file" id="pics" accept="image/*" multiple>
+    <label>Month <input type="month" id="month"></label><button id="read" class="go">Read pages</button></div>
+  <p id="readStatus"></p><div id="pages"></div>
+  <details><summary class="mute">Demo options</summary>
+    <div class="row"><label><input type="checkbox" id="ref" checked> Correct with the reference data</label>
+      <label><input type="checkbox" id="fresh"> Ignore saved readings (always read live)</label></div>
+    <label><input type="checkbox" id="sim"> Simulate an OCR failure</label></details>
+</section>
+
+<section>
+  <h2><b>2</b> Compare</h2>
+  <div class="row"><label>ERP file (.csv) <input type="file" id="erp" accept=".csv"></label>
+    <label>Store sheet (.xlsx) <input type="file" id="store" accept=".xlsx"></label>
+    <button id="compare" class="go">Compare</button></div>
+  <p id="cmpStatus"></p>
+</section>
+
+<section id="res" hidden>
+  <h2><b>3</b> Result and proof</h2>
+  <div class="cards" id="cards"></div>
+  <div id="proof"></div>
+  <div id="detail"></div>
+  <p><a href="/api/ledger.csv">Download every row (CSV)</a> &middot; <a href="#" id="assump">Assumptions and known failures</a></p>
+  <div id="assumptions" hidden class="note">
+    <ul>
+      <li>Rows are matched by delivery (GRN) number. Compared: date, supplier, item, lot, quantity with unit.</li>
+      <li>Lengths are compared as real length (1 yd = 0.9144 m). <code>H202</code> is read as <code>H2O2</code>.</li>
+      <li>An unclear value is never guessed or filled from another source. It is blank and amber, and counts as Mismatched ("could not confirm").</li>
+      <li>OCR can read a wrong digit confidently (for example 4 as 9). Format rules, confidence and the number-sequence check catch many, not all. A person confirms the page before comparing.</li>
+      <li>A row the OCR never found cannot be caught by the comparison. The sequence gap and the row counts are the guard.</li>
+            <li>If OCR fails, the page opens as an empty table to type in. Reference correction only applies to pages that match the reference register; other pages stay as OCR read them.</li>
+    </ul></div>
+</section>
+</main><script src="app.js"></script></body></html>

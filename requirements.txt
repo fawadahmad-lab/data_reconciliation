@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-multipart
+python-dotenv
+openpyxl
+rapidocr-onnxruntime   # local OCR (also brings numpy, opencv, pillow)
+pytest
+httpx                  # for the tests
